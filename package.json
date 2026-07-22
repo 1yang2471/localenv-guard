@@ -14,9 +14,9 @@
     "leg": "./bin/leg.js"
   },
   "scripts": {
-    "test": "node --test",
-    "test:ci": "node --test",
-    "test:acceptance": "node --test test/npm-port-forwarding.integration.test.js test/port-injection.integration.test.js test/killer.integration.test.js test/protected-services.test.js test/cli.test.js",
+    "test": "node --test --test-concurrency=1",
+    "test:ci": "node --test --test-concurrency=1",
+    "test:acceptance": "node --test --test-concurrency=1 test/npm-port-forwarding.integration.test.js test/port-injection.integration.test.js test/killer.integration.test.js test/protected-services.test.js test/cli.test.js",
     "pack:check": "npm pack --dry-run",
     "prepublishOnly": "npm run test && npm run pack:check",
     "start": "node ./bin/leg.js"
