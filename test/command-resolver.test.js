@@ -18,7 +18,13 @@ test("Windows 平台优先解析 PATH 中的可执行命令", () => {
   assert.match(result.toLowerCase(), /node(\.exe)?$/);
 });
 
-test("Windows 的 npm.cmd 使用 npm-cli.js 安全启动", () => {
+test("非 Windows 平台的 npm 保持原命令", { skip: process.platform === "win32" }, () => {
+  const result = resolveCommandInvocation("npm", ["run", "dev"]);
+
+  assert.deepEqual(result, { command: "npm", args: ["run", "dev"] });
+});
+
+test("Windows 的 npm.cmd 使用 npm-cli.js 安全启动", { skip: process.platform !== "win32" }, () => {
   const result = resolveCommandInvocation("npm", ["run", "dev"], {
     platform: "win32",
     env: process.env,
