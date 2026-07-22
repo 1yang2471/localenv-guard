@@ -1,0 +1,37 @@
+{
+  "name": "localenv-guard",
+  "version": "0.1.0",
+  "description": "LocalEnv-Guard: 安全处理本地开发端口冲突的跨平台 CLI。",
+  "keywords": [
+    "cli",
+    "port",
+    "eaddrinuse",
+    "developer-tools",
+    "cross-platform"
+  ],
+  "type": "module",
+  "bin": {
+    "leg": "./bin/leg.js"
+  },
+  "scripts": {
+    "test": "node --test",
+    "test:ci": "node --test",
+    "test:acceptance": "node --test test/npm-port-forwarding.integration.test.js test/port-injection.integration.test.js test/killer.integration.test.js test/protected-services.test.js test/cli.test.js",
+    "pack:check": "npm pack --dry-run",
+    "prepublishOnly": "npm run test && npm run pack:check",
+    "start": "node ./bin/leg.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "README.en.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "SECURITY.md"
+  ],
+  "engines": {
+    "node": ">=18.18"
+  },
+  "license": "MIT"
+}

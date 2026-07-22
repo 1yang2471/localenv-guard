@@ -1,0 +1,7 @@
+* text=auto
+.gitattributes text eol=lf
+*.js text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+bin/leg.js text eol=lf
