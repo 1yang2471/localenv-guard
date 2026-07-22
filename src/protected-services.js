@@ -41,7 +41,7 @@ const PROTECTED_PATTERNS = [
   , ["Unix 系统守护", /\b(dbus-daemon|systemd-journald|networkmanager)\b/i]
 ];
 
-const DEVELOPMENT_SERVER_PATTERN = /\b(vite|next\s+dev|nuxt\s+dev|astro\b.*\bdev|svelte-kit\s+dev|ng\s+serve|parcel\s+serve|rspack\s+dev|rsbuild\s+dev|remix\s+dev|gatsby\s+develop|docusaurus\s+start|storybook\s+dev|vuepress\s+dev|quasar\s+dev|manage\.py\s+runserver|django-admin\s+runserver|flask\s+run|uvicorn\b.*--reload|hypercorn\b.*--reload|streamlit\s+run|gradio\b|mkdocs\s+serve|hugo\s+server|jekyll\s+serve|deno\s+(?:task\s+dev|run\s+--watch)|bun\s+(?:run\s+)?dev|rails\s+server|bundle\s+exec\s+puma\s+--development|mix\s+phx\.server|php\s+artisan\s+serve|symfony\s+server:start|php\s+-S|\bair\b|cargo\s+run|go\s+run|dotnet\s+watch\s+run|spring-boot:run)\b/i;
+const DEVELOPMENT_SERVER_PATTERN = /\b(vite|next\s+dev|nuxt\s+dev|astro\b.*\bdev|svelte-kit\s+dev|ng\s+serve|parcel\s+serve|rspack\s+dev|rsbuild\s+dev|remix\s+dev|gatsby\s+develop|docusaurus\s+start|storybook\s+dev|vuepress\s+dev|quasar\s+dev|manage\.py\s+runserver|django-admin\s+runserver|flask\s+run|uvicorn\b.*--reload|hypercorn\b.*--reload|mkdocs\s+serve|hugo\s+server|jekyll\s+serve|deno\s+(?:task\s+dev|run\s+--watch)|bun\s+(?:run\s+)?dev|bundle\s+exec\s+puma\s+--development|php\s+artisan\s+serve|symfony\s+server:start|php\s+-S|dotnet\s+watch\s+run)\b/i;
 
 export function classifyProcess(processInfo = {}) {
   const haystack = `${processInfo.name ?? ""} ${processInfo.command ?? ""}`.toLowerCase();

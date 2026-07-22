@@ -152,7 +152,7 @@ export function buildConflictChoices(canTerminate, locale = "zh") {
 
 export function selectConflictAction(options = {}, canTerminate) {
   if (options.auto) {
-    return canTerminate ? "k" : "p";
+    return "p";
   }
   if (options.autoPort) {
     return "p";

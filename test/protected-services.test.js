@@ -138,28 +138,37 @@ test("常见开发框架的明确开发命令可放行", () => {
     "flask run",
     "uvicorn app:app --reload",
     "hypercorn app:app --reload",
-    "streamlit run app.py",
-    "gradio app.py",
     "mkdocs serve",
     "hugo server",
     "jekyll serve",
-    "rails server",
     "bundle exec puma --development",
-    "mix phx.server",
     "php artisan serve",
     "symfony server:start",
     "php -S localhost:8000",
-    "air",
-    "go run main.go",
-    "cargo run",
     "dotnet watch run",
-    "spring-boot:run",
     "deno task dev",
     "bun run dev"
   ];
 
   for (const command of commands) {
     assert.equal(canSafelyTerminateProcess({ name: "runtime", command }).allowed, true, command);
+  }
+});
+
+test("证据不足的应用启动命令不能获得终止资格", () => {
+  for (const command of [
+    "go run main.go",
+    "cargo run",
+    "streamlit run dashboard.py",
+    "gradio app.py",
+    "rails server",
+    "mix phx.server",
+    "spring-boot:run",
+    "node service.js --label air"
+  ]) {
+    const result = canSafelyTerminateProcess({ name: "runtime", command });
+    assert.equal(result.allowed, false, command);
+    assert.match(result.reason, /无法确认/);
   }
 });
 

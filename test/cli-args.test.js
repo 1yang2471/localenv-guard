@@ -41,8 +41,8 @@ test("LEG_LANG 提供默认语言，命令行 --lang 优先", () => {
   });
 });
 
-test("--auto 对明确开发进程自动终止，对未知进程自动换端口", () => {
-  assert.equal(selectConflictAction({ auto: true }, true), "k");
+test("--auto 始终换端口，不会静默终止任何进程", () => {
+  assert.equal(selectConflictAction({ auto: true }, true), "p");
   assert.equal(selectConflictAction({ auto: true }, false), "p");
   assert.equal(selectConflictAction({}, true), null);
 });

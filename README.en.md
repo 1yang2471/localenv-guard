@@ -7,7 +7,7 @@ LocalEnv-Guard is a cross-platform CLI for handling local development port confl
 ## Safety First
 
 - Protected services such as MySQL, PostgreSQL, Redis, Docker, SSH, system service hosts, and privileged-account processes are never offered automatic termination.
-- An unknown process is never offered termination. `--auto` moves to a free port instead.
+- An unknown or insufficiently identified process is never offered termination. `--auto` always moves to a free port instead and never terminates a process.
 - Only explicitly recognized local development-server commands can be terminated, and protected-service classification always wins.
 - Before termination, leg rechecks that the same PID still listens on the port and that its command and available start-time identity have not changed. Any uncertainty stops termination.
 - `leg doctor` reports common development ports and requires confirmation for each eligible cleanup. It does not support bulk cleanup with `--yes`.
@@ -61,7 +61,7 @@ The GitHub Actions workflow runs the same checks on Windows, macOS, and Linux wi
 
 ## Current Boundaries
 
-- This project is not released until the remote nine-job CI matrix is green.
+- Each new commit must pass the remote nine-job CI matrix before it can be treated as release-ready.
 - macOS/Linux process inspection depends on `lsof` and `pgrep`.
 - Some frameworks may require a dedicated port-injection adapter.
 - Child-process output remains the child program's own language; `leg` translates its own help, prompts, diagnostic labels, and recovery messages.
