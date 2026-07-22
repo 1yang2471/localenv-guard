@@ -9,6 +9,7 @@ LocalEnv-Guard is a cross-platform CLI for handling local development port confl
 - Protected services such as MySQL, PostgreSQL, Redis, Docker, SSH, system service hosts, and privileged-account processes are never offered automatic termination.
 - An unknown process is never offered termination. `--auto` moves to a free port instead.
 - Only explicitly recognized local development-server commands can be terminated, and protected-service classification always wins.
+- Before termination, leg rechecks that the same PID still listens on the port and that its command and available start-time identity have not changed. Any uncertainty stops termination.
 - `leg doctor` reports common development ports and requires confirmation for each eligible cleanup. It does not support bulk cleanup with `--yes`.
 
 ## Language

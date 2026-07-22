@@ -33,5 +33,13 @@
   "engines": {
     "node": ">=18.18"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1yang2471/localenv-guard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/1yang2471/localenv-guard/issues"
+  },
+  "homepage": "https://github.com/1yang2471/localenv-guard#readme"
 }

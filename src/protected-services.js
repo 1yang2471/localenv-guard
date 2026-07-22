@@ -97,6 +97,25 @@ export function canSafelyTerminateProcess(processInfo = {}, classification = cla
   };
 }
 
+export function getSafeCurrentOwner(originalOwner, currentOwners = []) {
+  const currentOwner = currentOwners.find((owner) => owner.pid === originalOwner.pid);
+  if (!currentOwner || !hasSameProcessIdentity(originalOwner, currentOwner)) {
+    return null;
+  }
+  const classification = classifyProcess(currentOwner);
+  return canSafelyTerminateProcess(currentOwner, classification).allowed ? currentOwner : null;
+}
+
+function hasSameProcessIdentity(originalOwner, currentOwner) {
+  if (!originalOwner.command || originalOwner.command !== currentOwner.command) {
+    return false;
+  }
+  if (originalOwner.startedAt || currentOwner.startedAt) {
+    return originalOwner.startedAt === currentOwner.startedAt;
+  }
+  return true;
+}
+
 function isPrivilegedUser(user) {
   return ["root", "system", "nt authority\\system", "s-1-5-18", "local service", "network service"].includes(user);
 }

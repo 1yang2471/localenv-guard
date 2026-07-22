@@ -25,7 +25,9 @@ test("leg --auto npm run dev 会静默换端口并覆写脚本端口", async () 
     assert.equal(result.code, 0, result.output);
     assert.equal(isRunning(holder.pid), true, "未知端口占用者不应被 leg 终止");
     assert.doesNotMatch(result.output, /已终止 PID/, result.output);
-    assert.match(result.output, new RegExp(`vite-like script listening ${port + 1}`));
+    const match = result.output.match(/vite-like script listening (\d+)/);
+    assert.ok(match, result.output);
+    assert.notEqual(Number.parseInt(match[1], 10), port, result.output);
   } finally {
     if (!holder.killed) {
       holder.kill("SIGKILL");

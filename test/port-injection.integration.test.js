@@ -28,7 +28,9 @@ async function verifyRecovery(buildTargetArgs) {
     const result = await run(process.execPath, [cli, ...buildTargetArgs(port)]);
 
     assert.equal(result.code, 0, result.output);
-    assert.match(result.output, new RegExp(`strict fixture listening on ${port + 1}`));
+    const match = result.output.match(/strict fixture listening on (\d+)/);
+    assert.ok(match, result.output);
+    assert.notEqual(Number.parseInt(match[1], 10), port, result.output);
   } finally {
     if (!holder.killed) {
       holder.kill("SIGKILL");

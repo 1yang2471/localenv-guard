@@ -1,5 +1,5 @@
 import { spawn } from "node:child_process";
-import { canSafelyTerminateProcess, classifyProcess, findProtectedProcess } from "./protected-services.js";
+import { canSafelyTerminateProcess, classifyProcess, findProtectedProcess, getSafeCurrentOwner } from "./protected-services.js";
 import { findAvailablePort } from "./port-finder.js";
 import { getPortOwners } from "./process-info.js";
 import { killProcessTree } from "./killer.js";
@@ -123,8 +123,13 @@ async function resolveConflict(port, args, env, options, locale) {
   }
 
   if (choice === "k") {
-    await killProcessTree(owner.pid);
-    console.log(translate(locale, "processTerminated", { pid: owner.pid }));
+    const currentOwner = getSafeCurrentOwner(owner, await getPortOwners(port));
+    if (!currentOwner) {
+      console.log(translate(locale, "occupantChanged"));
+      return { action: "abort", args, env };
+    }
+    await killProcessTree(currentOwner.pid);
+    console.log(translate(locale, "processTerminated", { pid: currentOwner.pid }));
     return { action: "retry", args, env };
   }
 

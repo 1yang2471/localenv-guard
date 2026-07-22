@@ -1,4 +1,4 @@
-import { canSafelyTerminateProcess, classifyProcess } from "./protected-services.js";
+import { canSafelyTerminateProcess, classifyProcess, getSafeCurrentOwner } from "./protected-services.js";
 import { getPortOwners } from "./process-info.js";
 import { killProcessTree } from "./killer.js";
 import { askChoice } from "./prompt.js";
@@ -59,7 +59,12 @@ export async function runDoctor({ ports = DEFAULT_DOCTOR_PORTS, yes = false, loc
       resolvedLocale
     );
     if (choice === "k") {
-      await killProcessTree(row.pid);
+      const currentOwner = getSafeCurrentOwner(row, await getPortOwners(row.port));
+      if (!currentOwner) {
+        console.log(translate(resolvedLocale, "occupantChanged"));
+        continue;
+      }
+      await killProcessTree(currentOwner.pid);
     }
   }
 
